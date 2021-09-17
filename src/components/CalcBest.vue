@@ -10,7 +10,7 @@
       <button @click="sub">-</button>
       <button @click="div">/</button>
       <button @click="multi">*</button>
-      <button @click="degree">^</button>
+      <button @click="degree">^**</button>
       <button @click="integer">%</button>
     </div>
   </div>
