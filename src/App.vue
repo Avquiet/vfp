@@ -2,7 +2,7 @@
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png" />
     <HelloWorld msg="Welcome to Your Vue.js App" />
-    <input
+    <!-- <input
       type="text"
       placeholder="text"
       @blur="blurMethod"
@@ -12,7 +12,7 @@
     />
     <button @click="c = a + b">Click</button>
     <button @click="doThat('Hello', $event)">Clear</button>
-    {{ c }}
+    {{ c }} -->
     <calc />
   </div>
 </template>
