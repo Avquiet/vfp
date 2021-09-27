@@ -1,54 +1,54 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
-    <!-- <input
-      type="text"
-      placeholder="text"
-      @blur="blurMethod"
-      @focus="focusMethod"
-      @keydown="blurMethod"
-      @keyup="focusMethod"
-    />
-    <button @click="c = a + b">Click</button>
-    <button @click="doThat('Hello', $event)">Clear</button>
-    {{ c }} -->
-    <calc />
+  <div>
+    <header>
+      <h1>My personal costs</h1>
+      <button class="info-button2" @click="show=!show">ADD NEW COSTS&nbsp;&nbsp;&nbsp;+</button>
+    </header>
+    <main>
+      <AddPaymentForm @addNewPayment="addNewPayment" v-if="show"/>
+      <PaymentsDisplay :items="paymentsList"/>
+    </main>
   </div>
 </template>
-
 <script>
-import Calc from './components/CalcBest.vue'
-import HelloWorld from './components/HelloWorld.vue'
+import PaymentsDisplay from './components/PaymentsDisplay'
+import AddPaymentForm from './components/AddPaymentForm.vue'
+
 export default {
-  name: 'App',
   components: {
-    HelloWorld,
-    Calc
+    PaymentsDisplay,
+    AddPaymentForm
   },
-  data: () => ({
-    show: false,
-    c: 0,
-    a: 1,
-    b: 1
-  }),
-  methods: {
-    doThat (str, event) {
-      console.log(str, event)
-      this.c = 0
+  data () {
+    return {
+      paymentsList: [],
+      show: false
     }
+  },
+  methods: {
+    addNewPayment (data) {
+      this.paymentsList = [...this.paymentsList, data]
+    }
+  },
+  created () {
+    this.paymentsList = this.fetchData()
   }
 }
 </script>
-
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-  margin-bottom: 20px;
+  body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+  .info-button2 {
+    width: 150px;
+    padding: 7px;
+    color: #fff;
+    border: none;
+    background:rgba(3, 201, 175, 0.849)
+  }
+
+  .info-button2:hover {
+  background: lightgrey;
+  cursor: pointer;
 }
 </style>
