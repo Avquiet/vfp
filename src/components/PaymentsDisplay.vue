@@ -3,12 +3,14 @@
     <ul class="info-item-list">
       <h4 class="list-property">#<li class="info-list" v-for="(item, index) of items" :key="index">&nbsp;&nbsp;{{ index + 1 }}</li></h4>
       <h4 class="list-property">Date:<li class="info-list" v-for="item of items" :key="item">&nbsp;&nbsp;{{ item.date }}</li></h4>
-      <h4 class="list-property">Category:<li class="info-list" v-for="item of items" :key="item">&nbsp;&nbsp;{{ item.category }}</li></h4>
-      <h4 class="list-property">Value:<li class="info-list" v-for="item of items" :key="item">&nbsp;&nbsp;{{ item.value }}</li></h4>
+      <h4 class="list-property">Type:<li class="info-list" v-for="item of items" :key="item">&nbsp;&nbsp;{{ item.type }}</li></h4>
+      <h4 class="list-property">Amount:<li class="info-list" v-for="item of items" :key="item">&nbsp;&nbsp;{{ item.amount }}</li></h4>
     </ul>
   </div>
 </template>
+
 <script>
+
 export default {
   props: {
     items: {

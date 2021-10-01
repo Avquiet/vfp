@@ -1,34 +1,46 @@
 <template>
-  <div class="info" v-show="true">
-    <input class="info-put" placeholder="Value" v-model="value"/>
-    <input class="info-put" placeholder="Category" v-model="category"/>
+  <div class="info">
+    <input class="info-put" placeholder="Value" v-model="amount"/>
     <input class="info-put" placeholder="Date" v-model="date"/>
+    <select class="put-category" v-model="type">
+      <option class="put-option" v-for="option in categoryList" :key="option">
+        {{ option }}
+      </option>
+    </select>
     <button class="info-button" @click="onSaveClick">ADD&nbsp;&nbsp;&nbsp;&nbsp;+</button>
   </div>
 </template>
 <script>
+
 export default {
+  name: 'AddPaymentForm',
+  props: {
+    categoryList: {
+      type: Array,
+      default: () => []
+    }
+  },
   data () {
     return {
-      value: '',
-      category: '',
+      amount: '',
+      type: '',
       date: ''
     }
   },
   computed: {
     getCurrentDate () {
-      const today = new Date()
-      const d = today.getDate()
-      const m = today.getMonth() + 1
-      const y = today.getFullYear()
-      return `${d}.${m}.${y}`
+      return new Intl.DateTimeFormat('ru-RU', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+      }).format(new Date())
     }
   },
   methods: {
     onSaveClick () {
       const data = {
-        value: +this.value,
-        category: this.category,
+        amount: Number(this.amount),
+        type: this.type,
         date: this.date || this.getCurrentDate
       }
       this.$emit('addNewPayment', data)
@@ -64,5 +76,13 @@ export default {
 .info-button:hover {
   background: lightgrey;
   cursor: pointer;
+}
+.put-category {
+  margin-top: 10px;
+  padding: 8px;
+  width: 219px;
+  border-top: 1px solid gainsboro;
+  border-right: 1px solid gainsboro;
+  outline: none;
 }
 </style>
