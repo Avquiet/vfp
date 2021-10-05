@@ -45,6 +45,9 @@ export default {
       }
       this.$emit('addNewPayment', data)
     }
+  },
+  created () {
+    this.type = this.$route.params.type
   }
 }
 

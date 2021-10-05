@@ -18,29 +18,17 @@ export default new Vuex.Store({
     addDataToPaymentsList (state, payload) {
       state.paymentsList.push(payload)
     }
-    // editValue (state, payload) {
-    //   state.paymentsList[0] = payload
-    //   state.paymentsList = [...state.paymentsList]
-    // Vue.set(state.paymentsList, 0, payload)
-    // }
   },
   actions: {
     fetchData ({ commit }) {
       return new Promise(resolve => {
         setTimeout(() => {
           const items = []
-          for (let i = 1; i < 1; i++) {
+          for (let i = 1; i < 51; i++) {
             items.push({
-              page1: [
-                { id: 1, date: '20.03.2020', category: 'Food', value: 169 },
-                { id: 2, date: '21.03.2020', category: 'Navigation', value: 50 },
-                { id: 3, date: '22.03.2020', category: 'Sport', value: 450 }
-              ],
-              page2: [
-                { id: 4, date: '23.03.2020', category: 'Entertaiment', value: 969 },
-                { id: 5, date: '24.03.2020', category: 'Education', value: 1500 },
-                { id: 6, date: '25.03.2020', category: 'Work', value: 200 }
-              ]
+              date: '27.09.2021',
+              category: 'Education',
+              amount: i
             })
           }
           resolve(items)
@@ -62,7 +50,7 @@ export default new Vuex.Store({
   getters: {
     getPaymentsList: state => state.paymentsList,
     getPaymentsListFullPrice: state => {
-      return state.paymentsList.reduce((res, cur) => res + cur.amount, 0)
+      return state.paymentsList.reduce((res, current) => res + current.amount, 0)
     },
     getCategoryList: state => state.categoryList
   }
