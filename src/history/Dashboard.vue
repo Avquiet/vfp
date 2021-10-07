@@ -53,6 +53,9 @@ export default {
     reName (p) {
       this.current = p
       this.$store.dispatch('fetchData', p)
+    },
+    addPayment () {
+      this.$modal.show({ title: "Add Payment Form", content: "AddPaymentForm" })
     }
   },
   created () {

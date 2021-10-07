@@ -27,7 +27,7 @@ export default new Vuex.Store({
           for (let i = 1; i < 51; i++) {
             items.push({
               date: '27.09.2021',
-              category: 'Education',
+              type: 'Education',
               amount: i
             })
           }

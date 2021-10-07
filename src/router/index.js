@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Dashboard from '../history/Dashboard'
-import About from '../history/About'
-import NotFound from '../history/NotFound'
+// import Dashboard from '../history/Dashboard'
+// import About from '../history/About'
+// import NotFound from '../history/NotFound'
 
 Vue.use(Router)
 
@@ -13,31 +13,34 @@ const router = new Router({
     {
       path: '/dashboard',
       name: 'dashboard',
-      component: Dashboard
+      component: () =>
+        import(/* webpackChunkName: "PageDashBoard" */ '../history/Dashboard.vue')
     },
     {
       path: '/dashboard/:current',
       name: 'dashboard',
-      component: Dashboard
+      component: () =>
+        import(/* webpackChunkName: "PageDashBoard" */ '../history/Dashboard.vue')
     },
     {
       path: '/dashboard/:addpayment/:categoryList/:type/:amount/',
       name: 'addpayment',
-      component: Dashboard
+      component: () =>
+        import(/* webpackChunkName: "PageDashBoard" */ '../history/Dashboard.vue')
     },
     {
       path: '/about',
       name: 'About',
-      component: About
+      component: () =>
+        import(/* webpackChunkName: "PageDashBoard" */ '../history/About.vue')
     },
     {
       path: '/404',
       name: 'NotFound',
-      component: NotFound
+      component: () => import(/* webpackChunkName: "PageDashBoard" */ '../history/NotFound.vue')
     }
   ]
 })
-
 const titles = {
   dashboard: 'dashboard',
   About: 'About',
