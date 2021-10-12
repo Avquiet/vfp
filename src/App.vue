@@ -3,7 +3,7 @@
     <header class="header">
       <router-link to="/dashboard">dashboard</router-link>
       <router-link to="/about">about</router-link>
-      <div @click="goToPage('NotFound')">404</div>
+       <router-link to="/calculator">Calculator</router-link>
     </header>
     <main>
       <router-view/>

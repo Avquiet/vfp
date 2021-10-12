@@ -14,7 +14,7 @@
       <button @click="onClick(value)" :title="value" v-show="board" v-for="value in myCollections" :key="value">
         {{ value }}
       </button>
-      <button v-show="board">&#8592;</button>
+      <button @click="deleteElement(operch)" v-show="board">&#8592;</button>
       <p>{{ 'Отобразить экранную клавиатуру' }}
         <input type="checkbox" id="checkbox" v-model="board">
       </p>
@@ -41,7 +41,15 @@ export default {
     }
   },
   methods: {
+    deleteElement (operch) {
+      const input = operch === '1' ? 'op1' : 'op2'
+      this[input] = Math.trunc(this[input] / 10)
+      this[input] = +String(this[input]).slice(0, -1)
+    },
     onClick (value) {
+      const { operch } = this
+      const input = operch === '1' ? 'op1' : 'op2'
+      this[input] = +(this[input] += String())
       this[this.clickOp] += value
     },
     calculate (operation = '+') {

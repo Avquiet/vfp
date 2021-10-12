@@ -35,16 +35,16 @@ const router = new Router({
         import(/* webpackChunkName: "PageDashBoard" */ '../history/About.vue')
     },
     {
-      path: '/404',
-      name: 'NotFound',
-      component: () => import(/* webpackChunkName: "PageDashBoard" */ '../history/NotFound.vue')
+      path: '/calculator',
+      name: 'BestCalculator',
+      component: () => import(/* webpackChunkName: "PageDashBoard" */ '../history/BestCalculator.vue')
     }
   ]
 })
 const titles = {
   dashboard: 'dashboard',
   About: 'About',
-  NotFound: 'NotFound'
+  BestCalculator: 'BestCalculator'
 }
 
 router.afterEach((to, from) => {

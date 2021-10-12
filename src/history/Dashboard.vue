@@ -55,7 +55,7 @@ export default {
       this.$store.dispatch('fetchData', p)
     },
     addPayment () {
-      this.$modal.show({ title: "Add Payment Form", content: "AddPaymentForm" })
+      this.$modal.show({ title: 'Add Payment Form', content: 'AddPaymentForm' })
     }
   },
   created () {
