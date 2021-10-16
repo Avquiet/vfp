@@ -1,19 +1,19 @@
 export default {
-  install(Vue) {
+  install (Vue) {
     if (this.installed) {
-      return;
+      return
     }
-    this.installed = true;
+    this.installed = true
 
     Vue.prototype.$modal = {
       EventBus: new Vue(),
 
-      menu(setting) {
+      menu (setting) {
         this.EventBus.$emit('showMenu', setting)
         console.log('showingMenu', setting)
       },
 
-      hidingMenu() {
+      hidingMenu () {
         this.EventBus.$emit('hideMenu')
         console.log('hidingMenu')
       }

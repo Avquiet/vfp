@@ -1,57 +1,59 @@
 <template>
-  <div>
-    <header>
-      <h1>My personal costs</h1>
-      <button class="info-button2" @click="show=!show">ADD NEW COSTS&nbsp;&nbsp;&nbsp;+</button>
-    </header>
-    <main>
-      <router-view/>
-      <AddPaymentForm @addNewPayment="addNewPayment" :categoryList="getCategoryList" v-if="show"/>
-      <PaymentsDisplay :items="currentElements"/>
-      <Pagination :current="current" :n="n" :length="getPaymentsList.length" @paginate="reName"/>
-    </main>
-  </div>
+  <v-container>
+    <v-row>
+      <v-col>
+        <div class="text-h5 text-sm-h3">My personal costs</div>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <v-dialog v-model="dialog" width="500">
+          <template v-slot:activator="{ on }">
+            <v-btn color="teal" dark v-on="on" @click="dialog = !dialog"
+              >Add new cost <v-icon>mdi-plus</v-icon></v-btn
+            >
+          </template>
+          <v-card>
+            <add-payment-form />
+          </v-card>
+        </v-dialog>
+
+        <PaymentDisplay show-items :items="paymentsList" />
+        <pagination :cur="page" :n="n" :length="getPaymentsList.length" @paginate="changePage"/>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
+
 <script>
-import PaymentsDisplay from '../components/PaymentsDisplay'
+import PaymentDisplay from '../components/PaymentDisplay.vue'
+import { mapMutations, mapGetters } from 'vuex'
 import AddPaymentForm from '../components/AddPaymentForm.vue'
 import Pagination from '../components/Pagination.vue'
-import { mapMutations, mapGetters } from 'vuex'
-
 export default {
-  components: {
-    PaymentsDisplay,
-    AddPaymentForm,
-    Pagination
-  },
+  components: { PaymentDisplay, AddPaymentForm, Pagination },
   name: 'Dashboard',
   data: () => ({
-    current: 1,
-    n: 5,
-    show: false
+    dialog: false,
+    page: 1,
+    n: 3
   }),
   computed: {
-    ...mapGetters(['getPaymentsList', 'getCategoryList']),
-    getFPV () {
-      return this.$store.getters.getPaymentsListFullPrice
-    },
+    ...mapGetters(['getPaymentsList']),
     paymentsList () {
       return this.$store.getters.getPaymentsList
     },
     currentElements () {
-      const { n, current } = this
-      return this.paymentsList.slice(n * (current - 1), n * (current - 1) + n)
+      const { n, page } = this
+      return this.paymentsList.slice(n * (page - 1), n * (page - 1) + n)
     }
   },
   methods: {
     ...mapMutations({
       addData: 'setPaymentsListData'
     }),
-    addNewPayment (data) {
-      this.$store.commit('addDataToPaymentsList', data)
-    },
-    reName (p) {
-      this.current = p
+    changePage (p) {
+      this.page = p
       this.$store.dispatch('fetchData', p)
     },
     addPayment () {
@@ -59,29 +61,10 @@ export default {
     }
   },
   created () {
-    if (this.$route.params.current) {
-      this.current = Number(this.$route.params.current)
-    }
-    this.categoryList = this.$route.name === 'addpayment'
-    this.$store.dispatch('fetchData', 1)
+    this.$store.dispatch('fetchData')
     this.$store.dispatch('fetchCategoryList')
   }
 }
 </script>
-<style>
-  body {
-    font-family:Verdana, Geneva, Tahoma, sans-serif;
-  }
-  .info-button2 {
-    width: 150px;
-    padding: 7px;
-    color: #fff;
-    border: none;
-    background:rgba(3, 201, 175, 0.849)
-  }
 
-  .info-button2:hover {
-  background: lightgrey;
-  cursor: pointer;
-}
-</style>
+<style></style>
