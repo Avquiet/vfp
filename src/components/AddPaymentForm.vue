@@ -1,23 +1,20 @@
 <template>
 <v-card class="text-left pa-8">
-  <v-text-field v-model="date" label="Date"/>
+  <v-text-field type="date" v-model="date" label="Date"/>
   <v-select v-model="type" label="Category" :items="categoryList" />
   <v-text-field v-model="value" label="Value"/>
-
-    <v-btn @click="onSaveClick">Save!</v-btn>
+    <v-btn color="teal" dark @click="onSaveClick">Save!</v-btn>
 </v-card>
 </template>
 
 <script>
 export default {
   name: 'AddPaymentForm',
-  data () {
-    return {
-      value: '',
-      type: '',
-      date: ''
-    }
-  },
+  data: () => ({
+    value: '',
+    type: '',
+    date: ''
+  }),
   computed: {
     categoryList () {
       return this.$store.getters.getCategoryList

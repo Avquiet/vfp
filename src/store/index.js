@@ -60,7 +60,7 @@ export default new Vuex.Store({
       return new Promise(resolve => {
         setTimeout(() => {
           const items = []
-          for (let i = 1; i < 11; i++) {
+          for (let i = 1; i < 101; i++) {
             items.push({
               date: '27.09.2021',
               category: 'Education',
@@ -87,7 +87,7 @@ export default new Vuex.Store({
     fetchCategoryList ({ commit }) {
       return new Promise(resolve => {
         setTimeout(() => {
-          resolve(['Food', 'Transport', 'Education', 'Sport'])
+          resolve(['Food', 'Navigation', 'Sport', 'Entertaiment', 'Education', 'Work'])
         }, 1000)
       }).then(res => {
         commit('setCategoryList', res)

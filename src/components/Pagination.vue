@@ -1,25 +1,26 @@
 <template>
-  <div class="text-center">
-    <v-pagination
-      color="teal"
-      v-model="page"
+  <div class="pagination__wrapper">
+    <div @click="onClick(cur - 1)"> <v-icon
+      >
+        mdi-chevron-left
+      </v-icon></div>
+    <div
+      v-for="i in amount"
       :key="i"
-      length="4"
       :class="{ active: cur === i }"
       @click="onClick(i)"
     >
       {{ i }}
-    </v-pagination>
+    </div>
+    <div @click="onClick(cur + 1)"><v-icon
+      >
+        mdi-chevron-right
+      </v-icon></div>
   </div>
 </template>
 
 <script>
 export default {
-  data () {
-    return {
-      page: 1
-    }
-  },
   name: 'Pagination',
   props: {
     n: Number,
@@ -42,11 +43,18 @@ export default {
 }
 </script>
 
-<style>
-.v-pagination__navigation {
-  box-shadow: #fff;
+<style lang="scss" scoped>
+.pagination {
+  &__wrapper {
+    justify-content: center;
+    display: flex;
+    & > div {
+      cursor: pointer;
+      padding: 10px;
+    }
+  }
 }
-.v-pagination__item {
-  box-shadow: none;
+.active {
+    color: teal;
 }
 </style>
