@@ -1,8 +1,17 @@
 import Vue from 'vue'
 import App from './App.vue'
 
-Vue.config.productionTip = false
+import store from './store'
+import router from './router'
+import modal from './plugins/modalWindow'
+import vuetify from './plugins/vuetify'
 
-new Vue ({
-  render: h => h(App)
+Vue.config.productionTip = false
+Vue.use(modal)
+
+new Vue({
+  render: h => h(App),
+  store,
+  vuetify,
+  router
 }).$mount('#app')
