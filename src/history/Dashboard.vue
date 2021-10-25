@@ -1,27 +1,8 @@
 <template>
   <v-container>
-    <v-row>
-      <v-col>
-        <div class="text-h5 text-sm-h3">My personal costs</div>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
-        <v-dialog v-model="dialog" width="500">
-          <template v-slot:activator="{ on }">
-            <v-btn color="teal" dark v-on="on" @click="dialog = !dialog"
-              >Add new cost <v-icon>mdi-plus</v-icon></v-btn
-            >
-          </template>
-          <v-card>
-            <add-payment-form />
-          </v-card>
-        </v-dialog>
-
-        <PaymentDisplay show-items :items="paymentsList" />
-        <pagination :cur="page" :n="n" :length="getPaymentsList.length" @paginate="changePage"/>
-      </v-col>
-    </v-row>
+    <add-payment-form />
+    <PaymentDisplay show-items :items="paymentsList" />
+    <pagination :cur="page" :n="n" :length="getPaymentsList.length" @paginate="changePage"/>
   </v-container>
 </template>
 

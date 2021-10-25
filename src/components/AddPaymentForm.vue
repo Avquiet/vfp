@@ -1,10 +1,5 @@
 <template>
-<v-card class="text-left pa-8">
-  <v-text-field type="date" v-model="date" label="Date"/>
-  <v-select v-model="type" label="Category" :items="categoryList" />
-  <v-text-field v-model="value" label="Value"/>
-    <v-btn color="teal" dark @click="onSaveClick">Save!</v-btn>
-</v-card>
+<div></div>
 </template>
 
 <script>

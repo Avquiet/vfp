@@ -1,10 +1,20 @@
 <template>
   <v-container>
+    <v-data-table
+    :page.sync="page"
+    :items-per-page="itemsPerPage"
+    hide-default-footer
+    @page-count="pageCount = $event"
+    :headers="headers"
+    :items="options"
+    sort-by="calories"
+    class="elevation-1"
+  >
     <template v-slot:top>
       <v-toolbar
         flat
       >
-        <v-toolbar-title>My CRUD</v-toolbar-title>
+        <v-toolbar-title>My Personal Costs</v-toolbar-title>
         <v-divider
           class="mx-4"
           inset
@@ -17,13 +27,13 @@
         >
           <template v-slot:activator="{ on, attrs }">
             <v-btn
-              color="primary"
+              color="teal"
               dark
               class="mb-2"
               v-bind="attrs"
               v-on="on"
             >
-              New Item
+              Add New Cost <v-icon>mdi-plus</v-icon>
             </v-btn>
           </template>
           <v-card>
@@ -33,53 +43,10 @@
 
             <v-card-text>
               <v-container>
-                <v-row>
-                  <v-col
-                    cols="12"
-                    sm="6"
-                    md="4"
-                  >
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    sm="6"
-                    md="4"
-                  >
-                    <v-text-field
-                      v-model="editedItem.calories"
-                      label="Calories"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    sm="6"
-                    md="4"
-                  >
-                    <v-text-field
-                      v-model="editedItem.fat"
-                      label="Fat (g)"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    sm="6"
-                    md="4"
-                  >
-                    <v-text-field
-                      v-model="editedItem.carbs"
-                      label="Carbs (g)"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    sm="6"
-                    md="4"
-                  >
-                    <v-text-field
-                      v-model="editedItem.protein"
-                      label="Protein (g)"
-                    ></v-text-field>
-                  </v-col>
+                <v-row class="edited-labels">
+                  <v-text-field color="teal" v-model="editedItem.date" label="Date"/>
+                  <v-select color="teal" v-model="editedItem.category" label="Category" :items="category" />
+                  <v-text-field color="teal" v-model="editedItem.value" label="Value"/>
                 </v-row>
               </v-container>
             </v-card-text>
@@ -87,14 +54,14 @@
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn
-                color="blue darken-1"
+                color="teal"
                 text
                 @click="close"
               >
                 Cancel
               </v-btn>
               <v-btn
-                color="blue darken-1"
+                color="teal"
                 text
                 @click="save"
               >
@@ -108,15 +75,15 @@
             <v-card-title class="text-h5">Are you sure you want to delete this item?</v-card-title>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
-              <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
+              <v-btn color="teal" text @click="closeDelete">Cancel</v-btn>
+              <v-btn color="teal" text @click="deleteItemConfirm">OK</v-btn>
               <v-spacer></v-spacer>
             </v-card-actions>
           </v-card>
         </v-dialog>
       </v-toolbar>
     </template>
-    <template v-slot:item="{ item }">
+    <template v-slot:item.actions="{ item }">
       <v-icon
         small
         class="mr-2"
@@ -133,37 +100,23 @@
     </template>
     <template v-slot:no-data>
       <v-btn
-        color="primary"
+        color="teal"
+        dark
         @click="initialize"
       >
         Reset
       </v-btn>
     </template>
-    <v-row class="text-border">
-      <v-col :cols="1">#</v-col>
-      <v-col :cols="4">Date</v-col>
-      <v-col :cols="5">Category</v-col>
-      <v-col :cols="2">Value</v-col>
-    </v-row>
+  </v-data-table>
 
-    <v-row class="text-border" v-for="pay in items" :key="pay.id">
-      <v-col :cols="1">{{ pay.id }}</v-col>
-      <v-col :cols="4">{{ pay.date }}</v-col>
-      <v-col :cols="5">{{ pay.category }}</v-col>
-      <v-col :cols="2">{{ pay.value }}
-        <v-icon
-        small
-        class="mr-2"
-        @click="editItem(item)"
-      >
-        mdi-pencil
-      </v-icon><v-icon
-        small
-        @click="deleteItem(item)"
-      >
-        mdi-delete
-      </v-icon></v-col>
-    </v-row>
+    <div class="text-center pt-2">
+      <v-pagination
+      class="pagination-but"
+      color="teal"
+        v-model="page"
+        :length="pageCount"
+      ></v-pagination>
+    </div>
   </v-container>
 </template>
 
@@ -181,36 +134,35 @@ export default {
     }
   },
   data: () => ({
+    id: 11,
+    page: 1,
+    pageCount: 0,
+    itemsPerPage: 10,
     dialog: false,
     dialogDelete: false,
+    category: ['IT', 'Food', 'Sport', 'Entertaiment', 'Education', 'Work', 'Navigation', 'Travel', 'Shop', 'Investments'],
     headers: [
       {
-        text: 'Dessert (100g serving)',
+        text: '',
         align: 'start',
-        sortable: false,
-        value: 'name'
+        sortable: false
       },
-      { text: 'Calories', value: 'calories' },
-      { text: 'Fat (g)', value: 'fat' },
-      { text: 'Carbs (g)', value: 'carbs' },
-      { text: 'Protein (g)', value: 'protein' },
+      { text: 'Date', value: 'date' },
+      { text: 'Category', value: 'category' },
+      { text: 'Value', value: 'value' },
       { text: 'Actions', value: 'actions', sortable: false }
     ],
-    desserts: [],
+    options: [],
     editedIndex: -1,
     editedItem: {
-      name: '',
-      calories: 0,
-      fat: 0,
-      carbs: 0,
-      protein: 0
+      date: '',
+      category: '',
+      value: 0
     },
     defaultItem: {
-      name: '',
-      calories: 0,
-      fat: 0,
-      carbs: 0,
-      protein: 0
+      date: '',
+      category: '',
+      value: 0
     }
   }),
 
@@ -235,94 +187,74 @@ export default {
 
   methods: {
     initialize () {
-      this.desserts = [
+      this.options = [
         {
-          name: 'Frozen Yogurt',
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0
+          date: '20.09.2001',
+          category: 'IT',
+          value: 231
         },
         {
-          name: 'Ice cream sandwich',
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3
+          date: '08.06.1980',
+          category: 'Food',
+          value: 330
         },
         {
-          name: 'Eclair',
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0
+          date: '20.01.1974',
+          category: 'Sport',
+          value: 124
         },
         {
-          name: 'Cupcake',
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3
+          date: '19.11.2013',
+          category: 'Entertaiment',
+          value: 467
         },
         {
-          name: 'Gingerbread',
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9
+          date: '10.04.2011',
+          category: 'Education',
+          value: 750
         },
         {
-          name: 'Jelly bean',
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0
+          date: '30.07.2019',
+          category: 'Work',
+          value: 108
         },
         {
-          name: 'Lollipop',
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0
+          date: '23.02.2018',
+          category: 'Navigation',
+          value: 794
         },
         {
-          name: 'Honeycomb',
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5
+          date: '31.11.2020',
+          category: 'Travel',
+          value: 777
         },
         {
-          name: 'Donut',
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9
+          date: '12.08.2021',
+          category: 'Shop',
+          value: 332
         },
         {
-          name: 'KitKat',
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7
+          date: '12.12.2021',
+          category: 'Investments',
+          value: 951
         }
       ]
     },
 
     editItem (item) {
-      this.editedIndex = this.desserts.indexOf(item)
+      this.editedIndex = this.options.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialog = true
     },
 
     deleteItem (item) {
-      this.editedIndex = this.desserts.indexOf(item)
+      this.editedIndex = this.options.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialogDelete = true
     },
 
     deleteItemConfirm () {
-      this.desserts.splice(this.editedIndex, 1)
+      this.options.splice(this.editedIndex, 1)
       this.closeDelete()
     },
 
@@ -344,9 +276,9 @@ export default {
 
     save () {
       if (this.editedIndex > -1) {
-        Object.assign(this.desserts[this.editedIndex], this.editedItem)
+        Object.assign(this.options[this.editedIndex], this.editedItem)
       } else {
-        this.desserts.push(this.editedItem)
+        this.options.push(this.editedItem)
       }
       this.close()
     }
@@ -357,5 +289,9 @@ export default {
 <style>
 .text-border {
   border-bottom: thin solid rgba(0,0,0,.12);
+}
+.edited-labels {
+  display: flex;
+  flex-direction: column;
 }
 </style>

@@ -1,24 +1,6 @@
 <template>
-  <div class="pagination__wrapper">
-    <div @click="onClick(cur - 1)"> <v-icon
-      >
-        mdi-chevron-left
-      </v-icon></div>
-    <div
-      v-for="i in amount"
-      :key="i"
-      :class="{ active: cur === i }"
-      @click="onClick(i)"
-    >
-      {{ i }}
-    </div>
-    <div @click="onClick(cur + 1)"><v-icon
-      >
-        mdi-chevron-right
-      </v-icon></div>
-  </div>
+<div></div>
 </template>
-
 <script>
 export default {
   name: 'Pagination',
