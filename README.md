@@ -1,4 +1,4 @@
-# vfp
+# vue.js-project
 
 ## Project setup
 ```
