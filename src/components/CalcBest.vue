@@ -3,8 +3,8 @@
     <div class="main">
       <input v-model.number="op1" type="number"/>
       <input v-model.number="op2" type="number"/>
-      <h3>= {{ result }}</h3>
-      <h6> {{ error }}</h6>
+      <h3>{{ result }}</h3>
+      <h6>{{ error }}</h6>
     </div>
     <div class="keyboard">
       <button v-for="operand in operands" :key="operand" @click="calculate(operand)" v-bind:title="operand" v-bind:disabled="op1 === '' || op2 === '' ">

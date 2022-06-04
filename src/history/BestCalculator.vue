@@ -4,23 +4,34 @@
     <div class="main">
       <v-text-field v-model.number="operand1" name="operand1"></v-text-field>
       <v-text-field v-model.number="operand2" name="operand2"></v-text-field>
-      <h3 class="result-table"> {{ result }}</h3>
+      <h3 class="result-table"> = {{ result }}</h3>
       <h6> {{ error }}</h6>
     </div>
     <div class="keyboard">
-      <v-btn v-for="operand in operands" :key="operand" @click="calculate(operand)" name="operand"  :disabled="operand === '/' && operand2 === 0">
+      <v-btn v-for="operand in operands" :key="operand" @click="calculate(operand)" name="operand"  :disabled="operand === operand && operand2 === 0">
         {{ operand }}
       </v-btn>
     </div>
-      <v-btn class="keyboard" @click="onClick(element)" name="element" :title="element" v-show="board" v-for="element in myCollections" :key="element">
+    <div class="keyboard">
+      <v-btn @click="onClick(element)" name="element" :title="element" v-show="board" v-for="element in myCollections" :key="element">
         {{ element }}
       </v-btn>
       <v-btn @click="deleteElement(element)" name="deleteElement" v-show="board">&#8592;</v-btn>
-      <p class="text-check">{{ 'Отобразить экранную клавиатуру' }}
-        <v-checkbox class="text-check2" name="board" type="checkbox" id="checkbox" v-model="board"></v-checkbox>
-      </p>
-      <label><input type="radio" name="op1" v-model="clickOp" value="1">Операнд 1</label>
-      <label><input type="radio" name="op2" v-model="clickOp" value="2">Операнд 2</label>
+    </div>
+      <v-checkbox name="board" type="checkbox" id="checkbox" v-model="board"></v-checkbox>
+      <p class="text-check">{{ 'Show On-Screen Keyboard' }}</p>
+      <v-radio-group v-model="clickOp">
+        <v-radio
+          name="op1"
+          :label="`Operand ${1}`"
+          value="1"
+        ></v-radio>
+        <v-radio
+          name="op2"
+          :label="`Operand ${2}`"
+          value="2"
+        ></v-radio>
+      </v-radio-group>
     </v-container>
   </div>
 </template>
@@ -36,7 +47,7 @@ export default {
       error: '',
       clickOp: '',
       operands: ['+', '-', '/', '*', '**', '%'],
-      myCollections: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      myCollections: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0],
       board: true
     }
   },
@@ -73,17 +84,8 @@ export default {
 
 <style>
 .text-check {
-  position: relative;
-  margin: 0 auto;
-  align-items: center;
-  text-align: center;
-  margin-left: 100px;
-}
-.text-check2 {
-  top: 20px;
-  position: absolute;
-  text-align: center;
-  margin-left: 200px;
+  margin-top: -45px;
+  margin-left: 35px;
 }
 .result-table {
   text-align: center;
