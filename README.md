@@ -1,4 +1,7 @@
-# vue.js-project
+# Made with Vue.js
+                           
+The user can add his expenses, there is a choice of categories, costs and dates.
+
 
 ## Project setup
 ```
